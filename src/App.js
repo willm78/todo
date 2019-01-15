@@ -6,16 +6,23 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import NoteAddIcon from "@material-ui/icons/NoteAdd";
+import List from "@material-ui/core/List";
+
+import Todo from "./Todo";
+import CompleteTodo from "./CompleteTodo";
 
 const styles = theme => ({
+    container: {
+        height: "100vh"
+    },
     paper: {
-        margin: theme.spacing.unit * 2,
-        padding: theme.spacing.unit * 2,
+        padding: theme.spacing.unit * 4,
         width: "50vw",
-        maxWidth: "700px"
+        maxWidth: "700px",
+        height: "90vh"
     },
     input: {
-        width: "50%"
+        width: "75%"
     },
     addButton: {
         padding: theme.spacing.unit,
@@ -29,22 +36,76 @@ const styles = theme => ({
 class App extends Component {
     state = {
         curVal: "",
-        todos: []
+        nextId: 0,
+        selected: null,
+        todos: {},
+        completed: {}
     };
 
-    onChange = e => this.setState({ curVal: e.target.value });
+    onKeyPress = e => {
+        return e.key === "Enter" ? this.onAddTodo() : null;
+    };
+
+    onChange = e => {
+        return e.key === "Enter"
+            ? null
+            : this.setState({ curVal: e.target.value });
+    };
 
     onAddTodo = () =>
-        this.setState(({ curVal, todos }) => {
+        this.setState(({ curVal, nextId, todos }) => {
+            return curVal.length
+                ? {
+                      curVal: "",
+                      nextId: nextId + 1,
+                      todos: { ...todos, [nextId]: curVal }
+                  }
+                : null;
+        });
+
+    onSelect = key => () => this.setState({ selected: key });
+
+    onDeselect = () => this.setState({ selected: null });
+
+    onUpdate = key => value => {
+        this.setState(({ todos }) => ({
+            todos: { ...todos, [key]: value },
+            selected: null
+        }));
+    };
+
+    onComplete = key => () => {
+        this.setState(({ todos, completed }) => {
+            const { [key]: toComplete, ...rest } = todos;
             return {
-                curVal: "",
-                todos: [...todos, curVal]
+                todos: rest,
+                completed: { ...completed, [key]: toComplete }
             };
         });
+    };
+
+    onDelete = key => () => {
+        this.setState(({ todos }) => {
+            const { [key]: toDelete, ...rest } = todos;
+            return {
+                todos: rest
+            };
+        });
+    };
+
+    onRevert = key => () => {
+        this.setState(({ todos, completed }) => {
+            const { [key]: toRevert, ...rest } = completed;
+            return {
+                todos: { ...todos, [key]: toRevert },
+                completed: rest
+            };
+        });
+    };
 
     render() {
         const { classes } = this.props;
-        const { curVal } = this.state;
+        const { curVal, selected, todos, completed } = this.state;
         return (
             <Grid
                 container
@@ -52,16 +113,15 @@ class App extends Component {
                 alignContent="center"
                 alignItems="center"
                 justify="center"
+                className={classes.container}
             >
                 <Grid item>
                     <Paper className={classes.paper}>
                         <Input
                             type="text"
                             placeholder="...new todo"
-                            multiline={true}
-                            rows={1}
-                            rowsMax={5}
                             onChange={this.onChange}
+                            onKeyPress={this.onKeyPress}
                             value={curVal}
                             className={classes.input}
                         />
@@ -79,6 +139,37 @@ class App extends Component {
                             </Typography>
                             <NoteAddIcon />
                         </Button>
+                        <Typography variant="h5">Current</Typography>
+
+                        <List>
+                            {Object.keys(todos).map((key, idx) => (
+                                <Todo
+                                    key={key}
+                                    idx={idx}
+                                    selected={selected === key}
+                                    onSelect={this.onSelect(key)}
+                                    onDeselect={this.onDeselect}
+                                    onUpdate={this.onUpdate(key)}
+                                    onComplete={this.onComplete(key)}
+                                    onDelete={this.onDelete(key)}
+                                    value={todos[key]}
+                                />
+                            ))}
+                        </List>
+                        <Typography variant="h5">Completed</Typography>
+                        <List>
+                            {Object.keys(completed).map((key, idx) => (
+                                <CompleteTodo
+                                    key={key}
+                                    idx={idx}
+                                    selected={selected === key}
+                                    onDeselect={this.onDeselect}
+                                    onSelect={this.onSelect(key)}
+                                    onRevert={this.onRevert(key)}
+                                    value={completed[key]}
+                                />
+                            ))}
+                        </List>
                     </Paper>
                 </Grid>
             </Grid>
