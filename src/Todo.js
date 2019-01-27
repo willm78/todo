@@ -64,45 +64,37 @@ class Todo extends Component {
                             className={classes.input}
                         />
                     </ListItemText>
-                    {selected ? (
-                        <React.Fragment>
-                            <ListItemIcon>
-                                <IconButton
-                                    onClick={() => {
-                                        this.setState({ isModifying: false });
-                                        onUpdate(curValue);
-                                    }}
-                                >
-                                    <SaveIcon />
-                                </IconButton>
-                            </ListItemIcon>
-                            <ListItemIcon>
-                                <IconButton onClick={onDelete}>
-                                    <DeleteIcon color="error" />
-                                </IconButton>
-                            </ListItemIcon>
-                        </React.Fragment>
-                    ) : null}
+                    <ListItemIcon>
+                        <IconButton
+                            onClick={() => {
+                                this.setState({ isModifying: false });
+                                onUpdate(curValue);
+                            }}
+                        >
+                            <SaveIcon />
+                        </IconButton>
+                    </ListItemIcon>
+                    <ListItemIcon>
+                        <IconButton onClick={onDelete}>
+                            <DeleteIcon color="error" />
+                        </IconButton>
+                    </ListItemIcon>
                 </ListItem>
             </ClickAwayListener>
         ) : (
             <ClickAwayListener onClickAway={this.onDeselect}>
                 <ListItem selected={selected} onClick={onSelect}>
                     <ListItemText>{`${idx + 1}. ${value}`}</ListItemText>
-                    {selected ? (
-                        <React.Fragment>
-                            <ListItemIcon>
-                                <IconButton onClick={this.onModify}>
-                                    <EditIcon />
-                                </IconButton>
-                            </ListItemIcon>
-                            <ListItemIcon>
-                                <IconButton onClick={onComplete}>
-                                    <CheckIcon color="action" />
-                                </IconButton>
-                            </ListItemIcon>
-                        </React.Fragment>
-                    ) : null}
+                    <ListItemIcon>
+                        <IconButton onClick={this.onModify}>
+                            <EditIcon />
+                        </IconButton>
+                    </ListItemIcon>
+                    <ListItemIcon>
+                        <IconButton onClick={onComplete}>
+                            <CheckIcon color="action" />
+                        </IconButton>
+                    </ListItemIcon>
                 </ListItem>
             </ClickAwayListener>
         );
