@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
-import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import UndoIcon from "@material-ui/icons/Undo";
 import IconButton from "@material-ui/core/IconButton";
+
+import TodoItem from "./TodoItem";
 
 const styles = theme => ({});
 
@@ -15,11 +16,16 @@ class Todo extends Component {
             idx,
             selected,
             onSelect,
+            onDeselect,
             onRevert,
             value
         } = this.props;
         return (
-            <ListItem selected={selected} onClick={onSelect}>
+            <TodoItem
+                selected={selected}
+                onSelect={onSelect}
+                onDeselect={onDeselect}
+            >
                 <ListItemText>{`${idx + 1}. ${value}`}</ListItemText>
                 <React.Fragment>
                     <ListItemIcon>
@@ -28,7 +34,7 @@ class Todo extends Component {
                         </IconButton>
                     </ListItemIcon>
                 </React.Fragment>
-            </ListItem>
+            </TodoItem>
         );
     }
 }

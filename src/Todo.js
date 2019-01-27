@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
-import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import EditIcon from "@material-ui/icons/Edit";
@@ -9,7 +8,8 @@ import SaveIcon from "@material-ui/icons/Save";
 import CheckIcon from "@material-ui/icons/Check";
 import IconButton from "@material-ui/core/IconButton";
 import Input from "@material-ui/core/Input";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+
+import TodoItem from "./TodoItem";
 
 const styles = theme => ({});
 
@@ -51,52 +51,56 @@ class Todo extends Component {
         } = this.props;
         const { isModifying, value: curValue } = this.state;
         return isModifying ? (
-            <ClickAwayListener onClickAway={this.onDeselect}>
-                <ListItem selected={selected} onClick={onSelect}>
-                    <ListItemText>
-                        {`${idx + 1}. `}
-                        <Input
-                            type="text"
-                            placeholder={value}
-                            onChange={this.onChange}
-                            onKeyPress={this.onKeyPress}
-                            value={curValue}
-                            className={classes.input}
-                        />
-                    </ListItemText>
-                    <ListItemIcon>
-                        <IconButton
-                            onClick={() => {
-                                this.setState({ isModifying: false });
-                                onUpdate(curValue);
-                            }}
-                        >
-                            <SaveIcon />
-                        </IconButton>
-                    </ListItemIcon>
-                    <ListItemIcon>
-                        <IconButton onClick={onDelete}>
-                            <DeleteIcon color="error" />
-                        </IconButton>
-                    </ListItemIcon>
-                </ListItem>
-            </ClickAwayListener>
+            <TodoItem
+                selected={selected}
+                onSelect={onSelect}
+                onDeselect={this.onDeselect}
+            >
+                <ListItemText>
+                    {`${idx + 1}. `}
+                    <Input
+                        type="text"
+                        placeholder={value}
+                        onChange={this.onChange}
+                        onKeyPress={this.onKeyPress}
+                        value={curValue}
+                        className={classes.input}
+                    />
+                </ListItemText>
+                <ListItemIcon>
+                    <IconButton
+                        onClick={() => {
+                            this.setState({ isModifying: false });
+                            onUpdate(curValue);
+                        }}
+                    >
+                        <SaveIcon />
+                    </IconButton>
+                </ListItemIcon>
+                <ListItemIcon>
+                    <IconButton onClick={onDelete}>
+                        <DeleteIcon color="error" />
+                    </IconButton>
+                </ListItemIcon>
+            </TodoItem>
         ) : (
-            <ClickAwayListener onClickAway={this.onDeselect}>
-                <ListItem selected={selected} onClick={onSelect}>
-                    <ListItemText>{`${idx + 1}. ${value}`}</ListItemText>
-                    <ListItemIcon>
-                        <IconButton onClick={this.onModify}>
-                            <EditIcon />
-                        </IconButton>
-                    </ListItemIcon>
-                    <ListItemIcon>
-                        <IconButton onClick={onComplete}>
-                            <CheckIcon color="action" />
-                        </IconButton>
-                    </ListItemIcon>
-                </ListItem>
-            </ClickAwayListener>
+            <TodoItem
+                selected={selected}
+                onSelect={onSelect}
+                onDeselect={this.onDeselect}
+            >
+                <ListItemText>{`${idx + 1}. ${value}`}</ListItemText>
+                <ListItemIcon>
+                    <IconButton onClick={this.onModify}>
+                        <EditIcon />
+                    </IconButton>
+                </ListItemIcon>
+                <ListItemIcon>
+                    <IconButton onClick={onComplete}>
+                        <CheckIcon color="action" />
+                    </IconButton>
+                </ListItemIcon>
+            </TodoItem>
         );
     }
 }
