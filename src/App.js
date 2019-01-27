@@ -163,8 +163,8 @@ class App extends Component {
                                     key={key}
                                     idx={idx}
                                     selected={selected === key}
-                                    onDeselect={this.onDeselect}
                                     onSelect={this.onSelect(key)}
+                                    onDeselect={this.onDeselect}
                                     onRevert={this.onRevert(key)}
                                     value={completed[key]}
                                 />
