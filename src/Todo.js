@@ -23,10 +23,17 @@ class Todo extends Component {
 
     onChange = e => this.setState({ value: e.target.value });
 
-    onKeyPress = e => {
+    onUpdate = () => {
         const { onUpdate } = this.props;
         const { value } = this.state;
-        return e.key === "Enter" ? onUpdate(value) : null;
+        this.setState({ isModifying: false });
+        return onUpdate(value);
+    };
+
+    onKeyPress = e => {
+        return e.key === "Enter"
+          ? this.onUpdate()
+          : null;
     };
 
     onDeselect = () => {
@@ -44,7 +51,6 @@ class Todo extends Component {
             idx,
             selected,
             onSelect,
-            onUpdate,
             onComplete,
             onDelete,
             value
@@ -69,10 +75,7 @@ class Todo extends Component {
                 </ListItemText>
                 <ListItemIcon>
                     <IconButton
-                        onClick={() => {
-                            this.setState({ isModifying: false });
-                            onUpdate(curValue);
-                        }}
+                        onClick={this.onUpdate}
                     >
                         <SaveIcon />
                     </IconButton>
