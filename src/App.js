@@ -13,13 +13,13 @@ import CompleteTodo from "./CompleteTodo";
 
 const styles = theme => ({
     container: {
-        height: "100vh"
+        margin: `${theme.spacing.unit * 2}px 0`
     },
     paper: {
         padding: theme.spacing.unit * 4,
         width: "50vw",
         maxWidth: "700px",
-        height: "90vh"
+        minHeight: "85vh"
     },
     input: {
         width: "75%"
