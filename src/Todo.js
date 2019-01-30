@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
@@ -11,7 +10,15 @@ import Input from '@material-ui/core/Input';
 
 import TodoItem from './TodoItem';
 
-const styles = theme => ({});
+const styles = theme => ({
+  input: {
+    width: '100%',
+  },
+  iconBtn: {
+    padding: theme.spacing.unit,
+    margin: theme.spacing.unit / 2,
+  },
+});
 
 class Todo extends Component {
   state = {
@@ -61,7 +68,6 @@ class Todo extends Component {
         onDeselect={this.onDeselect}
       >
         <ListItemText>
-          {`${idx + 1}. `}
           <Input
             type="text"
             placeholder={value}
@@ -71,16 +77,12 @@ class Todo extends Component {
             className={classes.input}
           />
         </ListItemText>
-        <ListItemIcon>
-          <IconButton onClick={this.onUpdate}>
-            <SaveIcon />
-          </IconButton>
-        </ListItemIcon>
-        <ListItemIcon>
-          <IconButton onClick={onDelete}>
-            <DeleteIcon color="error" />
-          </IconButton>
-        </ListItemIcon>
+        <IconButton onClick={this.onUpdate} className={classes.iconBtn}>
+          <SaveIcon />
+        </IconButton>
+        <IconButton onClick={onDelete} className={classes.iconBtn}>
+          <DeleteIcon color="error" />
+        </IconButton>
       </TodoItem>
     ) : (
       <TodoItem
@@ -89,16 +91,12 @@ class Todo extends Component {
         onDeselect={this.onDeselect}
       >
         <ListItemText>{`${idx + 1}. ${value}`}</ListItemText>
-        <ListItemIcon>
-          <IconButton onClick={this.onModify}>
-            <EditIcon />
-          </IconButton>
-        </ListItemIcon>
-        <ListItemIcon>
-          <IconButton onClick={onComplete}>
-            <CheckIcon color="action" />
-          </IconButton>
-        </ListItemIcon>
+        <IconButton onClick={this.onModify} className={classes.iconBtn}>
+          <EditIcon />
+        </IconButton>
+        <IconButton onClick={onComplete} className={classes.iconBtn}>
+          <CheckIcon color="action" />
+        </IconButton>
       </TodoItem>
     );
   }

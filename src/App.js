@@ -2,34 +2,32 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Input from '@material-ui/core/Input';
-import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
 
 import Todo from './Todo';
 import CompleteTodo from './CompleteTodo';
 
 const styles = theme => ({
-  container: {
-    margin: `${theme.spacing.unit * 2}px 0`,
-  },
   paper: {
     padding: theme.spacing.unit * 4,
-    width: '50vw',
-    maxWidth: '700px',
+    margin: theme.spacing.unit * 2,
     minHeight: '85vh',
   },
   input: {
-    width: '75%',
+    width: '100%',
   },
-  addButton: {
+  iconBtn: {
+    padding: theme.spacing.unit,
+    margin: theme.spacing.unit / 2,
+  },
+  list: {
     padding: theme.spacing.unit,
     margin: theme.spacing.unit,
-  },
-  buttonText: {
-    margin: `0 ${theme.spacing.unit}px`,
   },
 });
 
@@ -105,38 +103,38 @@ class App extends Component {
     const { classes } = this.props;
     const { curVal, selected, todos, completed } = this.state;
     return (
-      <Grid
-        container
-        direction="column"
-        alignContent="center"
-        alignItems="center"
-        justify="center"
-        className={classes.container}
-      >
-        <Grid item>
+      <Grid container justify="center">
+        <Grid item xs={12} md={9} xl={7}>
           <Paper className={classes.paper}>
-            <Input
-              type="text"
-              placeholder="...new todo"
-              onChange={this.onChange}
-              onKeyPress={this.onKeyPress}
-              value={curVal}
-              className={classes.input}
-            />
-            <Button
-              variant="contained"
-              disabled={!curVal}
-              onClick={this.onAddTodo}
-              className={classes.addButton}
-            >
-              <Typography className={classes.buttonText} color="inherit">
-                Add
-              </Typography>
-              <NoteAddIcon />
-            </Button>
-            <Typography variant="h5">Current</Typography>
-
-            <List>
+            <Grid container>
+              <Grid item xs={9} sm={10}>
+                <Input
+                  type="text"
+                  autoFocus={true}
+                  placeholder="...new todo"
+                  onChange={this.onChange}
+                  onKeyPress={this.onKeyPress}
+                  value={curVal}
+                  className={classes.input}
+                />
+              </Grid>
+              <Grid item xs={3} sm={2}>
+                <IconButton
+                  disabled={!curVal}
+                  onClick={this.onAddTodo}
+                  className={classes.iconBtn}
+                >
+                  <NoteAddIcon />
+                </IconButton>
+              </Grid>
+            </Grid>
+            <Grid container justify="center">
+              <Grid item>
+                <Typography variant="h6">Current</Typography>
+              </Grid>
+            </Grid>
+            <Divider />
+            <List className={classes.list}>
               {Object.keys(todos).map((key, idx) => (
                 <Todo
                   key={key}
@@ -151,8 +149,13 @@ class App extends Component {
                 />
               ))}
             </List>
-            <Typography variant="h5">Completed</Typography>
-            <List>
+            <Grid container justify="center">
+              <Grid item>
+                <Typography variant="h6">Completed</Typography>
+              </Grid>
+            </Grid>
+            <Divider />
+            <List className={classes.list}>
               {Object.keys(completed).map((key, idx) => (
                 <CompleteTodo
                   key={key}

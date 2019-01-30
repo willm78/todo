@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import UndoIcon from '@material-ui/icons/Undo';
 import IconButton from '@material-ui/core/IconButton';
 
 import TodoItem from './TodoItem';
 
-const styles = theme => ({});
+const styles = theme => ({
+  iconBtn: {
+    padding: theme.spacing.unit,
+    margin: theme.spacing.unit / 2,
+  },
+});
 
 class Todo extends Component {
   render() {
@@ -23,13 +27,9 @@ class Todo extends Component {
     return (
       <TodoItem selected={selected} onSelect={onSelect} onDeselect={onDeselect}>
         <ListItemText>{`${idx + 1}. ${value}`}</ListItemText>
-        <React.Fragment>
-          <ListItemIcon>
-            <IconButton onClick={onRevert}>
-              <UndoIcon />
-            </IconButton>
-          </ListItemIcon>
-        </React.Fragment>
+        <IconButton onClick={onRevert} className={classes.iconBtn}>
+          <UndoIcon />
+        </IconButton>
       </TodoItem>
     );
   }
