@@ -18,12 +18,18 @@ const styles = theme => ({
     margin: theme.spacing.unit * 2,
     minHeight: '85vh',
   },
+  newTodo: {
+    display: 'flex',
+    margin: theme.spacing.unit,
+    padding: theme.spacing.unit,
+  },
   input: {
-    width: '100%',
+    flex: '1 1 auto',
   },
   iconBtn: {
     padding: theme.spacing.unit,
     margin: theme.spacing.unit / 2,
+    flex: '0 0 auto',
   },
   list: {
     padding: theme.spacing.unit,
@@ -106,28 +112,24 @@ class App extends Component {
       <Grid container justify="center">
         <Grid item xs={12} md={9} xl={7}>
           <Paper className={classes.paper}>
-            <Grid container>
-              <Grid item xs={9} sm={10}>
-                <Input
-                  type="text"
-                  autoFocus={true}
-                  placeholder="...new todo"
-                  onChange={this.onChange}
-                  onKeyPress={this.onKeyPress}
-                  value={curVal}
-                  className={classes.input}
-                />
-              </Grid>
-              <Grid item xs={3} sm={2}>
-                <IconButton
-                  disabled={!curVal}
-                  onClick={this.onAddTodo}
-                  className={classes.iconBtn}
-                >
-                  <NoteAddIcon />
-                </IconButton>
-              </Grid>
-            </Grid>
+            <div className={classes.newTodo}>
+              <Input
+                type="text"
+                autoFocus={true}
+                placeholder="...new todo"
+                onChange={this.onChange}
+                onKeyPress={this.onKeyPress}
+                value={curVal}
+                className={classes.input}
+              />
+              <IconButton
+                disabled={!curVal}
+                onClick={this.onAddTodo}
+                className={classes.iconBtn}
+              >
+                <NoteAddIcon />
+              </IconButton>
+            </div>
             <Grid container justify="center">
               <Grid item>
                 <Typography variant="h6">Current</Typography>
