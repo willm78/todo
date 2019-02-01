@@ -14,9 +14,9 @@ import CompleteTodo from './CompleteTodo';
 
 const styles = theme => ({
   paper: {
-    padding: theme.spacing.unit * 4,
+    padding: theme.spacing.unit * 2,
     margin: theme.spacing.unit * 2,
-    minHeight: '85vh',
+    minHeight: '90vh',
   },
   newTodo: {
     display: 'flex',
